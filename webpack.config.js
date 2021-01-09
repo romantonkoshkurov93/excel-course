@@ -25,6 +25,7 @@ const jsLoader = () => {
 }
 
 module.exports = {
+    target: process.env.NODE_ENV === 'development' ? "web" : "browserlist",
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
     entry: ['@babel/polyfill', './index.js'],
@@ -41,8 +42,8 @@ module.exports = {
     },
     devtool: isDev ? 'source-map' : false,
     devServer: {
+        hot: isDev,
         port: 3000,
-        hot: isDev
     },
     plugins: [
         new CleanWebpackPlugin(),
@@ -70,10 +71,12 @@ module.exports = {
             {
                 test: /\.s?(a|c)?ss$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                    },
                     'css-loader',
                     'sass-loader'
-                ]
+                ],
             },
             {
                 test: /\.js$/,
