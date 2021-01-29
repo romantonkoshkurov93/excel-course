@@ -1,10 +1,11 @@
- export class Emitter {
+export class Emitter {
     constructor() {
         this.listeners = {}
     }
 
     // dispatch, fire, trigger
-    // Уведомляем слушателей если они есть
+    // Уведомляем слушателе если они есть
+    // table.emit('table:select', {a: 1})
     emit(event, ...args) {
         if (!Array.isArray(this.listeners[event])) {
             return false
@@ -16,8 +17,9 @@
     }
 
     // on, listen
-    // Подписываемся на уведомления
+    // Подписываемся на уведомление
     // Добавляем нового слушателя
+    // formula.subscribe('table:select', () => {})
     subscribe(event, fn) {
         this.listeners[event] = this.listeners[event] || []
         this.listeners[event].push(fn)
@@ -28,21 +30,20 @@
     }
 }
 
-
-// EXAMPLE
+// Example
 // const emitter = new Emitter()
 //
-// const unsub = emitter.subscribe('roman', data => console.log('Sub:', data))
-// emitter.emit('123123', 42)
+// const unsub = emitter.subscribe('vladilen', data => console.log(data))
+// emitter.emit('1231231', 42)
 //
 // setTimeout(() => {
-//     emitter.emit('roman', 'After 2 seconds')
+//   emitter.emit('vladilen', 'After 2 seconds')
 // }, 2000)
 //
 // setTimeout(() => {
-//     unsub()
+//   unsub()
 // }, 3000)
 //
 // setTimeout(() => {
-//     emitter.emit('roman', 'After 4 seconds')
+//   emitter.emit('vladilen', 'After 4 seconds')
 // }, 4000)
