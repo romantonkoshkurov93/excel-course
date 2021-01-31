@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require("copy-webpack-plugin")
@@ -26,7 +27,9 @@ const jsLoader = () => {
 }
 
 module.exports = {
-    target: process.env.NODE_ENV === 'development' ? "web" : "browserlist",
+    // Для режима build удалить все после ?
+    // Для режима разработки дописать  ? "web" : ""
+    target: process.env.NODE_ENV === 'development',
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
     entry: ['@babel/polyfill', './index.js'],
@@ -65,6 +68,9 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: filename('css')
+        }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
         })
     ],
     module: {
